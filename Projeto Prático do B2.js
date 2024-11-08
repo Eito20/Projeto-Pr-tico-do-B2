@@ -1,14 +1,26 @@
+function gerarNumerosAleatorios(quantidade, min = 1, max = 60) {
+    if (quantidade > max - min + 1) {
+        throw new Error('A quantidade solicitada é maior que o intervalo possível.');
+    }
+
+    const numeros = new Set();
+    while (numeros.size < quantidade) {
+        numeros.add(Math.floor(Math.random() * (max - min + 1)) + min);
+    }
+    return Array.from(numeros);
+}
+
 function gerarNumerosAleatoriosOtimizado(quantidade, min = 1, max = 60) {
     if (quantidade > max - min + 1) {
         throw new Error('A quantidade solicitada é maior que o intervalo possível.');
     }
 
-    const numerosDisponiveis = Array.from({length: max - min + 1},(_, i) => i + min);
+    const numerosDisponiveis = Array.from({length: max - min + 1}, (_, i) => i + min);
     const numerosGerados = [];
 
     for (let i = 0; i < quantidade; i++) {
         const indiceAleatorio = Math.floor(Math.random() * numerosDisponiveis.length);
-        numerosGerados.push(numerosDisponiveis.splice(indeceAleatorio, 1)[0]);
+        numerosGerados.push(numerosDisponiveis.splice(indiceAleatorio, 1)[0]);
     }
 
     return numerosGerados;
@@ -34,3 +46,6 @@ for (let i = 0; i < repeticoes; i++) {
     tempoTotal1 += tempoOriginal;
     tempoTotal2 += tempoOtimizado;
 }
+
+console.log(`Tempo médio da função original: ${tempoTotal1 / repeticoes} ms`);
+console.log(`Tempo médio da função otimizada: ${tempoTotal2 / repeticoes} ms`);
